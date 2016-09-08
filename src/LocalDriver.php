@@ -4,7 +4,12 @@ namespace MaartenGDev;
 
 class LocalDriver implements StorageDriverInterface
 {
-    protected $dir = 'cache/';
+    protected $dir = '';
+
+    public function __construct($dir)
+    {
+        $this->dir = $dir;
+    }
 
     public function fileExists($key){
         return file_exists($this->dir . md5($key));
