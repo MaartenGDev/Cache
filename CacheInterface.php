@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace MaartenGDev;
 
 
 interface CacheInterface

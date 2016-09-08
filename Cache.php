@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace MaartenGDev;
 
 
 class Cache implements CacheInterface
