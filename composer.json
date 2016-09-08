@@ -1,5 +1,6 @@
 {
 	"name": "maartengdev/cache-drivers",
+	"minimum-stability": "stable",
 	"description": "Cache all data using different drivers",
 	"license": "MIT",
 	"php": "^5.4",
