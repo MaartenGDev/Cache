@@ -1,5 +1,5 @@
 {
-	"name": "MaartenGDev/cache",
+	"name": "maartengdev/cache",
 	"description": "Cache all data using different drivers",
 	"license": "MIT",
 	"php": "^5.4",
