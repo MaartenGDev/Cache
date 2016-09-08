@@ -1,7 +1,8 @@
 {
-	"name": "maarten/cache",
+	"name": "MaartenGDev/cache",
 	"description": "Cache all data using different drivers",
 	"license": "MIT",
+	"php": "^5.4",
 	"require": {
 		"guzzlehttp/guzzle": "^6.2"
 	},
