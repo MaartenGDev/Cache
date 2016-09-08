@@ -26,15 +26,20 @@ class Cache implements CacheInterface
 
     public function has($key, $callable)
     {
+        if(!is_callable($callable)){
+            return false;
+        }
 
         if (!$this->storage->fileExists($key)) {
             return false;
         }
+
         $isValid = $this->isValid($key, $this->expire);
 
         if ($isValid) {
             return call_user_func_array($callable, [$this]);
         }
+
         return false;
     }
 
@@ -53,9 +58,9 @@ class Cache implements CacheInterface
     }
 
 
-    public function isValid($file, $expire)
+    public function isValid($key, $expire)
     {
-        $file = $this->storage->getPath($file);
+        $file = $this->storage->getPath($key);
 
         $expireTime = strtotime('-' . $expire . ' minutes');
 

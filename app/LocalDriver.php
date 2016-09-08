@@ -21,6 +21,7 @@ class LocalDriver implements StorageDriverInterface
         if(file_put_contents($this->dir . $file, $data) !== false){
             return file_get_contents($this->dir . $file);
         }
+
         return false;
     }
 
