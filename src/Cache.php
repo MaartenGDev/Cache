@@ -15,6 +15,7 @@ class Cache implements CacheInterface
 
     /**
      * Cache constructor.
+     *
      * @param StorageDriverInterface $storage
      * @param $expire
      */
@@ -24,6 +25,14 @@ class Cache implements CacheInterface
         $this->expire = $expire;
     }
 
+    /**
+     * Checks if a cache entry for the $key exists.
+     * The callable will be called if the cache entry is valid and exist.
+     *
+     * @param $key
+     * @param $callable
+     * @return bool|mixed
+     */
     public function has($key, $callable)
     {
         if(!is_callable($callable)){
@@ -43,6 +52,14 @@ class Cache implements CacheInterface
         return false;
     }
 
+    /**
+     * Checks if there is a cache item for the key and
+     * the data gets returned if an entry exists.
+     *
+     * @param $key
+     * @return mixed
+     * @throws \Exception
+     */
     public function get($key)
     {
         if (!$this->isValid($key, $this->expire)) {
@@ -52,12 +69,26 @@ class Cache implements CacheInterface
         return $this->storage->get($key);
     }
 
+    /**
+     * Save a file with a checksum of the key in the cache directory
+     *
+     * @param $key
+     * @param $data
+     * @return mixed
+     */
     public function store($key, $data)
     {
         return $this->storage->save($key, $data);
     }
 
-
+    /**
+     * Checks if the creating time is after expireTime
+     *
+     * @param $key
+     * @param $expire
+     *
+     * @return bool
+     */
     public function isValid($key, $expire)
     {
         $file = $this->storage->getPath($key);
