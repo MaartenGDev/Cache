@@ -1,0 +1,13 @@
+{
+	"name": "maarten/cache",
+	"description": "Cache all data using different drivers",
+	"license": "MIT",
+	"require": {
+		"guzzlehttp/guzzle": "^6.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"App\\": "app/"
+		}
+	}
+}
