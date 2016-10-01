@@ -9,6 +9,6 @@ install:
   - composer install
 
 script:
- - phpunit
  - mkdir cache
  - chown -R travis:travis cache/
+ - phpunit
