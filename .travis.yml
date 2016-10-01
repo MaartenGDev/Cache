@@ -9,6 +9,10 @@ install:
   - composer install
 
 script:
- - mkdir cache
+ - mkdir -p build/logs
+ - mkdir -p cache
  - chown -R travis:travis cache/
- - phpunit
+ - phpunit -c phpunit.xml.dist
+
+after_success:
+  - travis_retry php vendor/bin/coveralls
