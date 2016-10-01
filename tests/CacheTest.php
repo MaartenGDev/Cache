@@ -4,9 +4,10 @@ namespace MaartenGDev\Tests;
 
 use MaartenGDev\Cache;
 use MaartenGDev\Exceptions\BadMethodCallException;
-use MaartenGDev\Exceptions\CacheEntryNotFound;
+use MaartenGDev\Exceptions\CacheEntryNotFoundException;
 use MaartenGDev\Exceptions\CacheFileNotFoundException;
 use MaartenGDev\LocalDriver;
+use PHPUnit_Framework_Error_Warning;
 use PHPUnit_Framework_TestCase;
 
 class CacheTest extends PHPUnit_Framework_TestCase
@@ -81,14 +82,14 @@ class CacheTest extends PHPUnit_Framework_TestCase
     public function testCacheItemHasFileButCacheItemHasExpired(){
         $store = $this->cache->store('cache_with_file_but_invalid','With file but expired');
 
-        $this->expectException(CacheEntryNotFound::class);
+        $this->expectException(CacheEntryNotFoundException::class);
 
         $cacheItem = $this->cache->get('cache_with_file_but_invalid', -2);
     }
 
     public function testStoreCacheItemInInvalidDirectory(){
 
-        $this->expectException(\PHPUnit_Framework_Error_Warning::class);
+        $this->expectException(PHPUnit_Framework_Error_Warning::class);
 
         $dir = dirname(__FILE__)  . '/../invalid_directory/';
         $localStorage = new LocalDriver($dir);

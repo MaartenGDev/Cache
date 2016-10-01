@@ -3,7 +3,7 @@ namespace MaartenGDev;
 
 
 use MaartenGDev\Exceptions\BadMethodCallException;
-use MaartenGDev\Exceptions\CacheEntryNotFound;
+use MaartenGDev\Exceptions\CacheEntryNotFoundException;
 use MaartenGDev\Exceptions\CacheFileNotFoundException;
 
 class Cache implements CacheInterface
@@ -70,7 +70,7 @@ class Cache implements CacheInterface
      * @param $key
      * @param null $expire
      * @return mixed
-     * @throws CacheEntryNotFound
+     * @throws CacheEntryNotFoundException
      */
     public function get($key, $expire = null)
     {
@@ -79,7 +79,7 @@ class Cache implements CacheInterface
         $expireTime = $hasProvidedExpireTime ? $expire : $this->expire;
 
         if (!$this->isValid($key, $expireTime)) {
-            throw new CacheEntryNotFound('No cache entry found.');
+            throw new CacheEntryNotFoundException('No cache entry found.');
         }
 
         return $this->storage->get($key);

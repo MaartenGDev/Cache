@@ -4,7 +4,7 @@ namespace MaartenGDev\Exceptions;
 
 use Exception;
 
-class CacheEntryNotFound extends Exception
+class CacheEntryNotFoundException extends Exception
 {
 
 }
