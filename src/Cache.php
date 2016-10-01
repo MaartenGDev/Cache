@@ -2,6 +2,8 @@
 namespace MaartenGDev;
 
 
+use MaartenGDev\Exceptions\BadMethodCallException;
+use MaartenGDev\Exceptions\CacheEntryNotFound;
 use MaartenGDev\Exceptions\CacheFileNotFoundException;
 
 class Cache implements CacheInterface
@@ -41,7 +43,7 @@ class Cache implements CacheInterface
 
 
         if($isCallable && !is_callable($callable)){
-            return false;
+            throw new BadMethodCallException('Invalid Callable provided');
         }
 
         if (!$this->storage->fileExists($key)) {
@@ -68,7 +70,7 @@ class Cache implements CacheInterface
     public function get($key)
     {
         if (!$this->isValid($key, $this->expire)) {
-            throw new \Exception('No Cache Entry found');
+            throw new CacheEntryNotFound('No cache entry found.');
         }
 
         return $this->storage->get($key);

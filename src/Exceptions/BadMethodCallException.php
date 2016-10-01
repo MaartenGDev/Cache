@@ -4,7 +4,7 @@ namespace MaartenGDev\Exceptions;
 
 use Exception;
 
-class CacheFileNotFoundException extends Exception
+class BadMethodCallException extends Exception
 {
 
 }
