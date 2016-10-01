@@ -2,6 +2,8 @@
 namespace MaartenGDev;
 
 
+use MaartenGDev\Exceptions\CacheFileNotFoundException;
+
 class Cache implements CacheInterface
 {
     /**
@@ -33,9 +35,12 @@ class Cache implements CacheInterface
      * @param $callable
      * @return bool|mixed
      */
-    public function has($key, $callable)
+    public function has($key, $callable = null)
     {
-        if(!is_callable($callable)){
+        $isCallable = $callable !== null;
+
+
+        if($isCallable && !is_callable($callable)){
             return false;
         }
 
@@ -45,11 +50,11 @@ class Cache implements CacheInterface
 
         $isValid = $this->isValid($key, $this->expire);
 
-        if ($isValid) {
+        if ($isCallable && $isValid) {
             return call_user_func_array($callable, [$this]);
         }
 
-        return false;
+        return $isValid;
     }
 
     /**
@@ -86,15 +91,20 @@ class Cache implements CacheInterface
      *
      * @param $key
      * @param $expire
-     *
      * @return bool
+     *
+     * @throws CacheFileNotFoundException
      */
     public function isValid($key, $expire)
     {
-        $file = $this->storage->getPath($key);
+        $path = $this->storage->getPath($key);
 
         $expireTime = strtotime('-' . $expire . ' minutes');
 
-        return filectime($file) >= $expireTime;
+        if(!file_exists($path)){
+            throw new CacheFileNotFoundException('Cache File not found.');
+        }
+
+        return filectime($path) >= $expireTime;
     }
 }
