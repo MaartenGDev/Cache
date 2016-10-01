@@ -35,12 +35,14 @@ class Cache implements CacheInterface
      *
      * @param $key
      * @param $callable
+     * @param $expire
      * @return bool|mixed
+     * @throws BadMethodCallException
      */
-    public function has($key, $callable = null)
+    public function has($key, $callable = null, $expire = null)
     {
         $isCallable = $callable !== null;
-
+        $hasProvidedExpireTime = $expire !== null;
 
         if($isCallable && !is_callable($callable)){
             throw new BadMethodCallException('Invalid Callable provided');
@@ -50,7 +52,9 @@ class Cache implements CacheInterface
             return false;
         }
 
-        $isValid = $this->isValid($key, $this->expire);
+        $expireTime = $hasProvidedExpireTime ? $expire : $this->expire;
+
+        $isValid = $this->isValid($key, $expireTime);
 
         if ($isCallable && $isValid) {
             return call_user_func_array($callable, [$this]);
@@ -64,12 +68,17 @@ class Cache implements CacheInterface
      * the data gets returned if an entry exists.
      *
      * @param $key
+     * @param null $expire
      * @return mixed
-     * @throws \Exception
+     * @throws CacheEntryNotFound
      */
-    public function get($key)
+    public function get($key, $expire = null)
     {
-        if (!$this->isValid($key, $this->expire)) {
+        $hasProvidedExpireTime = $expire !== null;
+
+        $expireTime = $hasProvidedExpireTime ? $expire : $this->expire;
+
+        if (!$this->isValid($key, $expireTime)) {
             throw new CacheEntryNotFound('No cache entry found.');
         }
 

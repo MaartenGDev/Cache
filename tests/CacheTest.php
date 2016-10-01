@@ -78,4 +78,24 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($cacheItem,'New Entry Here');
     }
 
+    public function testCacheItemHasFileButCacheItemHasExpired(){
+        $store = $this->cache->store('cache_with_file_but_invalid','With file but expired');
+
+        $this->expectException(CacheEntryNotFound::class);
+
+        $cacheItem = $this->cache->get('cache_with_file_but_invalid', -2);
+    }
+
+    public function testStoreCacheItemInInvalidDirectory(){
+
+        $this->expectException(\PHPUnit_Framework_Error_Warning::class);
+
+        $dir = dirname(__FILE__)  . '/../invalid_directory/';
+        $localStorage = new LocalDriver($dir);
+        $cache = new Cache($localStorage,5);
+
+        $cacheItem = $cache->store('test_cache_in_invalid_directory','Hello World');
+
+        $this->assertFalse($cacheItem);
+    }
 }
