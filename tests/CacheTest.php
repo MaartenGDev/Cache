@@ -40,7 +40,5 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $this->expectException(CacheFileNotFoundException::class);
 
         $fileDoesNotExist = $this->cache->isValid('hello_world_invalid',5);
-
-
     }
 }
