@@ -19,7 +19,7 @@ $this->cache->store($key, 'Hello World Cache Drivers');
 
 // Get cache entry
 $cacheEntry = $this->cache->get($key);
-// result: "Hello World Cache Driers"
+// result: "Hello World Cache Drivers"
 ```
 ##### Check for cache entry with closure
 ```PHP
@@ -38,6 +38,7 @@ function myFunction(){
 
     return $this->cache->get($key);
 }
+// result: "Hello World!"
 ```
 
 ## Licence
