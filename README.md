@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/MaartenGDev/CacheDrivers.svg?branch=master)](https://travis-ci.org/MaartenGDev/CacheDrivers)
 [![Coverage Status](https://coveralls.io/repos/github/MaartenGDev/CacheDrivers/badge.svg?branch=master)](https://coveralls.io/github/MaartenGDev/CacheDrivers?branch=master)
+[![Total Downloads](https://poser.pugx.org/maartengdev/cache-drivers/downloads)](https://packagist.org/packages/maartengdev/cache-drivers)
+[![Latest Stable Version](https://poser.pugx.org/maartengdev/cache-drivers/v/stable)](https://packagist.org/packages/maartengdev/cache-drivers)
+[![License](https://poser.pugx.org/maartengdev/cache-drivers/license)](https://packagist.org/packages/maartengdev/cache-drivers)
 # Cache Drivers
 An easy to use php caching library.
 
