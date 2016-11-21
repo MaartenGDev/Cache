@@ -9,35 +9,47 @@ An easy to use php caching library.
 ## Usage
 ##### Basic Usage
 ```PHP
+$dir = $_SERVER['DOCUMENT_ROOT'] .'/cache/';
+$expireTime = 30;
+
+$driver = new LocalDriver($dir);
+$cache = new Cache($driver, $expireTime);
+
 $key = 'HelloWorld';
 
 // Check if cache entry exists
-$cacheHasKey = $this->cache->has($key);
+$cacheHasKey = $cache->has($key);
 
 // Create new cache entry
-$this->cache->store($key, 'Hello World Cache Drivers');
+$cache->store($key, 'Hello World Cache Drivers');
 
 // Get cache entry
-$cacheEntry = $this->cache->get($key);
+$cacheEntry = $cache->get($key);
 // result: "Hello World Cache Drivers"
 ```
 ##### Check for cache entry with closure
 ```PHP
-function myFunction(){
+$dir = $_SERVER['DOCUMENT_ROOT'] .'/cache/';
+$drive = new LocalDriver($dir);
+$cache = new Cache($drive,30);
+
+function myFunction(Cache $cache){
     $key = 'HelloWorld';
 
-    $cache = $this->cache->has($key, function ($cache) use ($key) {
+    $cacheEntry = $cache->has($key, function ($cache) use ($key) {
         return $cache->get($key);
     });
 
-    if ($cache) {
-        return $cache;
+    if ($cacheEntry) {
+        return $cacheEntry;
     }
 
-    $this->cache->store($key, 'Hello World!');
+    $cache->store($key, 'Hello World!');
 
-    return $this->cache->get($key);
+    return $cache->get($key);
 }
+myFunction($cache);
+
 // result: "Hello World!"
 ```
 
