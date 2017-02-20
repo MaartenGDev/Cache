@@ -46,14 +46,6 @@ class CacheTest extends PHPUnit_Framework_TestCase
         $fileDoesNotExist = $this->cache->isValid('hello_world_invalid',5);
     }
 
-    public function test_call_has_item_in_cache_with_invalid_closure(){
-
-        $stored = $this->cache->store('hello_world','Hello world!');
-
-        $this->expectException(TypeError::class);
-        $this->cache->has('hello_world','invalid closure');
-    }
-
     public function test_has_item_in_cache_with_closure_returns_closure_return_value(){
 
         $stored = $this->cache->store('hello_world','Hello world!');
