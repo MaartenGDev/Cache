@@ -9,7 +9,7 @@ use MaartenGDev\Exceptions\CacheFileNotFoundException;
 use MaartenGDev\LocalDriver;
 use PHPUnit_Framework_Error_Warning;
 use PHPUnit_Framework_TestCase;
-use TypeError;
+use \TypeError;
 
 class CacheTest extends PHPUnit_Framework_TestCase
 {
