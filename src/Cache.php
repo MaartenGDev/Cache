@@ -1,7 +1,7 @@
 <?php
 namespace MaartenGDev;
 
-
+use Closure;
 use MaartenGDev\Exceptions\BadMethodCallException;
 use MaartenGDev\Exceptions\CacheEntryNotFoundException;
 use MaartenGDev\Exceptions\CacheFileNotFoundException;
@@ -35,28 +35,24 @@ class Cache implements CacheInterface
      *
      * @param $key
      * @param $callable
-     * @param $expire
+     * @param $expireTime
      * @return bool|mixed
      * @throws BadMethodCallException
      */
-    public function has($key, $callable = null, $expire = null)
+    public function has($key, Closure $callable = null, $expireTime = null)
     {
-        $isCallable = $callable !== null;
-        $hasProvidedExpireTime = $expire !== null;
-
-        if($isCallable && !is_callable($callable)){
-            throw new BadMethodCallException('Invalid Callable provided');
-        }
+        $hasProvidedCallable = !is_null($callable);
+        $hasProvidedExpireTime = !is_null($expireTime);
 
         if (!$this->storage->fileExists($key)) {
             return false;
         }
 
-        $expireTime = $hasProvidedExpireTime ? $expire : $this->expire;
+        $expireTime = $hasProvidedExpireTime ? $expireTime : $this->expire;
 
         $isValid = $this->isValid($key, $expireTime);
 
-        if ($isCallable && $isValid) {
+        if ($hasProvidedCallable && $isValid) {
             return call_user_func_array($callable, [$this]);
         }
 
@@ -74,7 +70,7 @@ class Cache implements CacheInterface
      */
     public function get($key, $expire = null)
     {
-        $hasProvidedExpireTime = $expire !== null;
+        $hasProvidedExpireTime = !is_null($expire);
 
         $expireTime = $hasProvidedExpireTime ? $expire : $this->expire;
 
@@ -101,16 +97,16 @@ class Cache implements CacheInterface
      * Checks if the creating time is after expireTime
      *
      * @param $key
-     * @param $expire
+     * @param $minutes
      * @return bool
      *
      * @throws CacheFileNotFoundException
      */
-    public function isValid($key, $expire)
+    public function isValid($key, $minutes)
     {
         $path = $this->storage->getPath($key);
 
-        $expireTime = strtotime('-' . $expire . ' minutes');
+        $expireTime = strtotime("-{$minutes}  minutes");
 
         if(!file_exists($path)){
             throw new CacheFileNotFoundException('Cache File not found.');
